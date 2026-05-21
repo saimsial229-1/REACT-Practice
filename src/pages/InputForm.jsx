@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import TodoList from "../cssComponents/ButtonComponent"
+
 const STATUSES = ["pending", "success", "failed"];
 
 export default function FormData() {
@@ -9,7 +11,7 @@ export default function FormData() {
   const [date, setDate] = useState(todayString);
   const [editId, setEditId] = useState(null);
   const [data, setData] = useState([]);
-  const [updatedId, setUpdatedId] = useState(null);  
+  const [updatedId, setUpdatedId] = useState(null);
   const [status, setStatus] = useState(STATUSES[0]);
 
   const handleSubmit = (e) => {
@@ -27,7 +29,7 @@ export default function FormData() {
             ...item,
             title,
             date,
-            status, 
+            status,
           };
         }
         return item;
@@ -41,7 +43,7 @@ export default function FormData() {
         id: Date.now(),
         title,
         date,
-        status, 
+        status,
       };
 
       setData((prev) => [...prev, newItem]);
@@ -49,106 +51,112 @@ export default function FormData() {
 
     setTitle("");
     setDate(todayString);
-    setStatus(STATUSES[0]); 
+    setStatus(STATUSES[0]);
   };
 
   const editItems = (item) => {
     setTitle(item.title);
     setDate(item.date);
-    setStatus(item.status); 
+    setStatus(item.status);
     setEditId(item.id);
   };
-  
+
   const deleteItem = (id) => {
     const filteredData = data.filter((item) => item.id !== id);
     setData(filteredData);
   };
 
   return (
-    <div className="min-h-screen w-full flex-col mb-4 flex items-center justify-center bg-linear-to-br from-indigo-900 via-slate-900 to-blue-900">
-      <form onSubmit={handleSubmit}>
-        
-        <div className="flex items-center flex-col text-white relative mt-6">
-          <div className="flex flex-col w-64">
 
-        <input
-        className="peer order-2 border border-gray-300 rounded focus:outline-none transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-11 peer w-full"
-          type="text"
-          id="title"
-          required
-          placeholder="Please Enter"
-          minLength={5}
-          maxLength={50}
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        
-        <label htmlFor="title" className="transform order-1 peer-hover:shadow-lg transition-all duration-200 peer-hover:-translate-y-1 text-lg font-bold  text-blue-100 ">Title</label>
 
-        </div>
-        <br />
-        <div className="flex flex-col w-64">
-        <input
-          className=" peer order-2 border border-gray-300 rounded transform hover:-translate-y-1 hover:shadow-lg transition-all duration-200 h-11 w-full [&::-webkit-calendar-picker-indicator]:invert-[1]"
-          type="date"
-          id="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
-        <label htmlFor="date" className="transform order-1 font-bold text-lg peer-hover:-translate-y-1 peer-hover:shadow-lg transition-all duration-200">Date</label>
-        </div>
-        <br />
-        {editId &&(
-          <>
-        <select value={status} onChange={(e) => setStatus(e.target.value)}>
-          {STATUSES.map((stat) => (
-            <option key={stat} value={stat}>
-              {stat}
-            </option>
-          ))}
-        </select>
-        <br />
-        
-        </>
-        
-        )}
-        
-        <button  className={`transform hover:-translate-y-1 hover:shadow-lg transition-all duration-200 px-4 py-2 rounded-md font-bold w-30 ${
-          editId 
-          ? "bg-blue-600 hover:bg-blue-700 text-white" 
-          : "bg-green-600 hover:bg-green-700 text-white" 
-        }`}type="submit">
-          {editId ? "Update" : "Submit"}
-        </button>
-        </div>
-      </form>
-        
-      <div className="mt-5   text-white ">
-        {data.map((item) => (
-          <div key={item.id} style={{ marginBottom: "10px" }}>
-           
-            <b>{item.title}</b> — {item.date} [{item.status}]
+    <div className="h-screen flex-col flex items-center justify-start bg-white">
+      <div className="relative w-full h-40 bg-[#9395D3] ">
 
-            {updatedId === item.id && (
-              <span className="bg-">  [Updated]</span>
-            )}
-            <div className="flex">
-              
-              <button
-                className=" bg-blue-600 hover:bg-blue-700 text-white ml-10 w-20 border border-blue-900 rounded transform hover:-translate-y-1 hover:shadow-lg transition-all duration-200 mt-2"  
-                disabled={item.status === "success"}
-                onClick={() => {editItems(item) ; beingEdited()}}
-              >
-                {editId === item.id ? "Editing" : "Edit"}
-              </button>
-              <button className="bg-red-600 hover:bg-red-700 ml-4 w-20 mt-2 border border-red-900 rounded transform hover:-translate-y-1 hover:shadow-lg transition-all duration-200" onClick={() => deleteItem(item.id)}>Delete</button>
-            </div>
-          </div>
-          
-        ))}
+        <div className="text-white absolute top-1/2 left-10 font-semibold text-2xl">
+          <h1>
+            Todo App
+
+          </h1>
         </div>
       </div>
-    
-    
+      <form onSubmit={handleSubmit}>
+
+        <div className="flex items-center flex-col text-white relative mt-6">
+          <div className="relative z-0">
+
+            <input
+              className="mt-12 block py-1 px-2 w-full text-[#8B8787] text-heading bg-transparent border-0 border-b-2 appearance-none focus:outline-none  peer"
+              type="text"
+              id="title"
+              required
+              placeholder=""
+              minLength={5}
+              maxLength={50}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+
+            <label htmlFor="title" className="mt-10 absolute text-base text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-0 peer-focus:inset-s-0 peer-focus:text-fg-brand peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 text-[#8B8787]">Title</label>
+
+          </div>
+          <br />
+          <div className="flex flex-col w-64">
+            <div className="relative z-0">
+
+              <input
+
+                className=" ml-5 mt-11 block py-1 w-55 text-[#8B8787] text-heading bg-transparent border-0 border-b-2 appearance-none focus:outline-none  peer"
+                type="date"
+                required
+                id="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+              />
+              <label htmlFor="date" className="mt-10 ml-5 absolute text-base text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-0 peer-focus:inset-s-0 peer-focus:text-fg-brand peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 text-[#8B8787]">Date</label>
+            </div>
+          </div>
+          <br />
+          {editId && (
+            <div className="text-black mb-6">
+              <select value={status} onChange={(e) => setStatus(e.target.value)}>
+                {STATUSES.map((stat) => (
+                  <option key={stat} value={stat}>
+                    {stat}
+                  </option>
+                ))}
+              </select>
+              <br />
+
+            </div>
+
+          )}
+
+          <button className={`transform hover:-translate-y-1 hover:shadow-lg transition-all duration-200 px-4 py-2 rounded-md font-bold w-30 ${editId
+            ? "bg-[#9395D3] hover:bg-[#9395D3] text-white"
+            : "bg-[#9395D3] hover:bg-[#9395D3] text-white"
+            }`} type="submit">
+            {editId ? "Update" : "Submit"}
+          </button>
+        </div>
+      </form>
+
+      <div className="mt-5   text-black ">
+        {data.map((item, i) =>
+        (<TodoList
+          key={i}
+          item={item}
+          editItems={editItems}
+          beingEdited={() => console.log("Editing")}
+          editId={editId}
+          deleteItem={deleteItem}
+          updatedId={updatedId}
+        />)
+
+
+        )}
+      </div>
+    </div>
+
+
   );
 }
